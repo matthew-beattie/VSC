@@ -1,4 +1,24 @@
-﻿#'------------------------------------------------------------------------------
+<#'-----------------------------------------------------------------------------
+'Script Name : VSC.psm1  
+'Author      : Matthew Beattie
+'Email       : mbeattie@netapp.com
+'Created     : 2020-05-22
+'Description : This code provides Functions for invoking NetApp VSC REST API's.
+'            : It also contains functions for invoking VMWare REST API's that
+'            : to enumerate vCenter managed object references used by some VSC API's.
+'Link        : https://www.netapp.com/us/documentation/virtual-storage-console.aspx
+'Disclaimer  : THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR
+'            : IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+'            : WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+'            : PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR 
+'            : ANYDIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+'            : DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+'            : GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+'            : INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+'            : WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+'            : NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+'            : THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+'-----------------------------------------------------------------------------#>
 #'VSC REST API Functions.
 #'------------------------------------------------------------------------------
 Function Connect-VSCSession{
@@ -3208,13 +3228,13 @@ Function Get-VSCApiMapping{
    $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Remove-VSCScp"              -Category "Storage Capability Profile" -Method "DELETE" -EndPoint @("/2.0/admin/storage-capabilities","/2.0/admin/storage-capabilities/{id}")   -Description @("Delete a Storage Capability Profile by name","Deletes the storage capability profile that has the specified ID")
    $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Set-VSCScp"                 -Category "Storage Capability Profile" -Method "PUT"    -EndPoint "/2.0/storage/capability-profiles"                                            -Description "Updates a storage capability profile"
    $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "New-VSCScpClone"            -Category "Storage Capability Profile" -Method "POST"   -EndPoint "/2.0/storage/capability-profiles/{base-profile-name}"                        -Description "Clones a storage capability profile"
-   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Add-VSCCluster"             -Category "Storage"                    -Method "POST"   -EndPoint "/2.0/storage/clusters"                                                       -Description "Adds a storage system"
-   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Invoke-VSCRediscover"       -Category "Storage"                    -Method "POST"   -EndPoint "/2.0/storage/clusters/discover"                                              -Description "Rediscovers the storage systems"
-   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Get-VSCAggregates"          -Category "Storage"                    -Method "GET"    -EndPoint "/2.0/storage/clusters/{cluster-id}/aggregates"                               -Description "Get all the aggregates and their details"
-   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Remove-VSCCluster"          -Category "Storage"                    -Method "DELETE" -EndPoint "/2.0/storage/clusters/{controller-id}"                                       -Description "Removes the storage system with the specified ID"
-   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Get-VSCCluster"             -Category "Storage"                    -Method "GET"    -EndPoint @("/2.0/storage/clusters","/2.0/storage/clusters/{controller-id}")            -Description @("Gets all the storage systems and their details","Gets the storage system and details of a specified ID")
-   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Get-VSCFlexvol"             -Category "Storage"                    -Method "GET"    -EndPoint @("/2.0/storage/flexvolumes")                                                 -Description "Retreives flexVols matching the given storage capability profiles"
-   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "New-VSCFlexvol"             -Category "Storage"                    -Method "POST"   -EndPoint @("/2.0/storage/flexvolumes")                                                 -Description "Creates a flexVol based on the storage capabiity profile provided"
+   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Add-VSCCluster"             -Category "Storage Systems"            -Method "POST"   -EndPoint "/2.0/storage/clusters"                                                       -Description "Adds a storage system"
+   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Invoke-VSCRediscover"       -Category "Storage Systems"            -Method "POST"   -EndPoint "/2.0/storage/clusters/discover"                                              -Description "Rediscovers the storage systems"
+   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Get-VSCAggregates"          -Category "Storage Systems"            -Method "GET"    -EndPoint "/2.0/storage/clusters/{cluster-id}/aggregates"                               -Description "Get all the aggregates and their details"
+   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Remove-VSCCluster"          -Category "Storage Systems"            -Method "DELETE" -EndPoint "/2.0/storage/clusters/{controller-id}"                                       -Description "Removes the storage system with the specified ID"
+   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Get-VSCCluster"             -Category "Storage Systems"            -Method "GET"    -EndPoint @("/2.0/storage/clusters","/2.0/storage/clusters/{controller-id}")            -Description @("Gets all the storage systems and their details","Gets the storage system and details of a specified ID")
+   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Get-VSCFlexvol"             -Category "Storage Systems"            -Method "GET"    -EndPoint @("/2.0/storage/flexvolumes")                                                 -Description "Retreives flexVols matching the given storage capability profiles"
+   $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "New-VSCFlexvol"             -Category "Storage Systems"            -Method "POST"   -EndPoint @("/2.0/storage/flexvolumes")                                                 -Description "Creates a flexVol based on the storage capabiity profile provided"
    $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Wait-VSCTask"               -Category "Tasks"                      -Method "GET"    -EndPoint "/2.0/tasks/{id}"                                                             -Description "Retrieves the status of the asynchronous task"
    $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Connect-VSCSession"         -Category "User Authentication"        -Method "POST"   -EndPoint "/2.0/security/user/login"                                                    -Description "Gets the user login details and generates a session (vmware-api-session-id created)"
    $apis += Add-VSCApi -VSC $VSC -PortNumber $PortNumber -Name "Disconnect-VSCSession"      -Category "User Authentication"        -Method "POST"   -EndPoint "/2.0/tasks/{id}"                                                             -Description "Logs off a user from the current session"
