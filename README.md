@@ -1,0 +1,2 @@
+# VSC
+VSC PowerShell Module
