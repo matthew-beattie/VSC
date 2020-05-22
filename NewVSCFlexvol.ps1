@@ -17,6 +17,8 @@
 '            : NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 '            : THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 '-------------------------------------------------------------------------------
+'Instructions for use:
+'-------------------------------------------------------------------------------
 Step 1) Ensure the 'NewVSCFlexvol.ps1' file and 'VSC.psm1' are saved in the same directory.
 
 C:\Scripts\PowerShell\Projects\VSC> Get-ChildItem | Select-Object -ExpandProperty Name
@@ -75,7 +77,7 @@ Param(
    [String]$AggregateName,
    [Parameter(Mandatory = $True, HelpMessage = "The Flexvol Volume Name")]
    [String]$VolumeName,
-   [Parameter(Mandatory = $False, HelpMessage = "The Volume Size in GigaBytes")]
+   [Parameter(Mandatory = $True, HelpMessage = "The Volume Size in GigaBytes")]
    [Int]$SizeGB,
    [Parameter(Mandatory = $True, HelpMessage = "The Credential to authenticate to VSC")]
    [System.Management.Automation.PSCredential]$Credential
